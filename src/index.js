@@ -1,6 +1,37 @@
+const cardsContainer = document.querySelector('.cards');
 
-console.log(data);
+function createPokemonCard(pokemon) {
+    const card = document.createElement('li');
+    card.className = 'card';
 
-//You can start simple and just render a single 
-//pokemon card from the first element
-console.log(data[0]);
+    const pokemonName = pokemon.name.charAt(0).toUpperCase() + pokemon.name.slice(1);
+
+    const stats = {};
+    pokemon.stats.forEach(stat => {
+        stats[stat.stat.name] = stat.base_stat;
+    });
+
+    card.innerHTML = `
+        <h2 class="card--title">${pokemonName}</h2>
+        <img
+            width="256"
+            class="card--img"
+            src="${pokemon.sprites.other['official-artwork'].front_default}"
+        />
+        <ul class="card--text">
+            <li>HP: ${stats.hp}</li>
+            <li>ATTACK: ${stats.attack}</li>
+            <li>DEFENSE: ${stats.defense}</li>
+            <li>SPECIAL-ATTACK: ${stats['special-attack']}</li>
+            <li>SPECIAL-DEFENSE: ${stats['special-defense']}</li>
+            <li>SPEED: ${stats.speed}</li>
+        </ul>
+    `;
+
+    return card;
+}
+
+data.forEach(pokemon => {
+    const pokemonCard = createPokemonCard(pokemon);
+    cardsContainer.appendChild(pokemonCard);
+});
