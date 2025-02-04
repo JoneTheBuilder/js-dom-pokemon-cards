@@ -11,6 +11,13 @@ function createPokemonCard(pokemon) {
         stats[stat.stat.name] = stat.base_stat;
     });
 
+    const games = pokemon.game_indices.map(game => {
+        return game.version.name
+            .split('-')
+            .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+            .join(' ');
+    });
+
     card.innerHTML = `
         <h2 class="card--title">${pokemonName}</h2>
         <img
@@ -26,6 +33,12 @@ function createPokemonCard(pokemon) {
             <li>SPECIAL-DEFENSE: ${stats['special-defense']}</li>
             <li>SPEED: ${stats.speed}</li>
         </ul>
+        <div class="card--games">
+            <h3>Appears in:</h3>
+            <ul class="games-list">
+                ${games.map(game => `<li>${game}</li>`).join('')}
+            </ul>
+        </div>
     `;
 
     return card;
